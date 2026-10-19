@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo in Natura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #08140c;
+            background-image: radial-gradient(circle at center, #0f2b1a 0%, #08140c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 32px 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .avatar-img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ffffff;
+            padding: 4px;
+            margin: 0 auto 20px auto;
+            border: 2px solid rgba(37, 211, 102, 0.5);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+            display: block;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #a0aec0;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+        }
+
+        .link-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .link-card.primary {
+            background: #25d366;
+            color: #000000 !important;
+            border: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .link-card.primary i {
+            color: #000000;
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .link-content i {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .instagram-icon { color: #e1306c; }
+        .google-icon { color: #ffcc00; }
+        .maps-icon { color: #ea4335; }
+        .wifi-icon { color: #00d2ff; }
+
+        .arrow-icon {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 28px 0 20px 0;
+        }
+
+        .social-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .social-circle:hover {
+            background: #25d366;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* --- Estilos do Modal do Wi-Fi --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #0d1f14;
+            border: 1px solid rgba(37, 211, 102, 0.4);
+            border-radius: 24px;
+            padding: 28px 22px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.2);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .wifi-modal-icon {
+            font-size: 32px;
+            color: #25d366;
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .info-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #a0aec0;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .info-val {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            word-break: break-all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: #25d366;
+            color: #000000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #34e775;
+        }
+
+        .qr-code-box {
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 16px;
+            display: inline-block;
+            margin: 14px 0 8px 0;
+        }
+
+        .qr-code-box img {
+            width: 130px;
+            height: 130px;
+            display: block;
+        }
+
+        .qr-subtext {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logomarca Oficial Atualizada -->
+        <img src="https://i.postimg.cc/7Lc9gzr3/62f5bc87-db67-4b2b-9ba4-10201a48725e.jpg" alt="Mundo in Natura" class="avatar-img">
+        
+        <!-- Nome do Cliente -->
+        <h1>Mundo in Natura</h1>
+        <p class="subtitle">Produtos Naturais, Vida Saudável & Bem-Estar.<br>Conecte-se conosco abaixo:</p>
+
+        <!-- 1. WhatsApp -->
+        <a href="https://wa.me/5577991790890" class="link-card primary" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Fale Conosco no WhatsApp</span>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 2. Instagram -->
+        <a href="https://www.instagram.com/mundoinnatura" class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <i class="fa-brands fa-instagram instagram-icon"></i>
+                <span>Siga no Instagram</span>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 3. Avaliação do Google -->
+        <a href="https://search.google.com/local/writereview?placeid=ChIJq6t5J7M7RgcRIqdNP_MCQ2A" class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <i class="fa-solid fa-star google-icon"></i>
+                <span>Avalie Nosso Atendimento</span>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 4. Localização no Maps -->
+        <a href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x7463bb32779abab:0x604302f33f4da722?entry=s&sa=X&ved=2ahUKEwiD-r-ajcKXAxU6BbkGHVKRLAAQ4kB6BAgVEAA&hl=pt" class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <i class="fa-solid fa-location-dot maps-icon"></i>
+                <span>Nossa Localização no Maps</span>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 5. Wi-Fi (Abre o Modal) -->
+        <div class="link-card" onclick="openWifiModal()">
+            <div class="link-content">
+                <i class="fa-solid fa-wifi wifi-icon"></i>
+                <span>Conecte-se ao Nosso Wi-Fi</span>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+        </div>
+
+        <!-- Ícones redondos no rodapé -->
+        <div class="footer-socials">
+            <a href="https://wa.me/5577991790890" class="social-circle" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/mundoinnatura" class="social-circle" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://maps.google.com/maps/place//data=!4m2!3m1!1s0x7463bb32779abab:0x604302f33f4da722?entry=s&sa=X&ved=2ahUKEwiD-r-ajcKXAxU6BbkGHVKRLAAQ4kB6BAgVEAA&hl=pt" class="social-circle" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-location-dot"></i>
+            </a>
+        </div>
+
+        <footer>
+            Mundo in Natura • Todos os direitos reservados
+        </footer>
+    </div>
+
+    <!-- Modal Wi-Fi -->
+    <div class="modal-overlay" id="wifiModal" onclick="closeWifiModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeWifiModal(event)">&times;</button>
+            <i class="fa-solid fa-wifi wifi-modal-icon"></i>
+            <h3 class="modal-title">Wi-Fi Clientes</h3>
+            
+            <div class="info-box">
+                <div class="info-label">Nome da Rede (SSID)</div>
+                <div class="info-val">
+                    <span>Mundoinnatura</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">Senha do Wi-Fi</div>
+                <div class="info-val">
+                    <span id="wifiPassword">inatura40</span>
+                    <button class="copy-btn" id="copyBtn" onclick="copyPassword()">Copiar</button>
+                </div>
+            </div>
+
+            <div class="qr-code-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WIFI%3AS%3AMundoinnatura%3BT%3AWPA%3BP%3Ainatura40%3B%3B" alt="QR Code Wi-Fi">
+            </div>
+            <p class="qr-subtext">Aponte a câmera do celular no QR Code para conectar automaticamente</p>
+        </div>
+    </div>
+
+    <script>
+        function openWifiModal() {
+            document.getElementById('wifiModal').classList.add('active');
+        }
+
+        function closeWifiModal(event) {
+            document.getElementById('wifiModal').classList.remove('active');
+        }
+
+        function copyPassword() {
+            const pass = document.getElementById('wifiPassword').innerText;
+            navigator.clipboard.writeText(pass).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = 'Copiado!';
+                btn.style.background = '#ffffff';
+                btn.style.color = '#000000';
+                setTimeout(() => {
+                    btn.innerText = 'Copiar';
+                    btn.style.background = '#25d366';
+                    btn.style.color = '#000000';
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
